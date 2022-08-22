@@ -1,0 +1,3 @@
+name: mahmoud khairy
+age: 21
+course: php 
