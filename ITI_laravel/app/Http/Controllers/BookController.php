@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\Book;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class PostController extends Controller
+class BookController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $posts = Post::all();
+        $books = Book::all();
         $data = [
-            'posts' => $posts
+            'books' => $books
         ];
-        return view('posts.index',compact('data'));
+        return view('books.index',compact('data'));
     }
 
     /**
@@ -30,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('books.create');
     }
 
     /**
@@ -49,10 +48,9 @@ class PostController extends Controller
 
         $data = $request->all();
         $data['image'] = $this->insertImage($request->title,$request->cover);
-        $data['user_id'] = Auth::user()->id;
-        Post::create($data);
-        return redirect()->route('posts.index')->with([
-            'message' => 'Post Added Successfully',
+        Book::create($data);
+        return redirect()->route('books.index')->with([
+            'message' => 'Book Added Successfully',
             'alert' => 'success'
         ]);
     }
@@ -63,12 +61,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Book $book)
     {
         $data = [
-            'post' => $post
+            'book' => $book
         ];
-        return view('posts.show',compact('data'));
+        return view('books.show',compact('data'));
     }
 
     /**
@@ -77,12 +75,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Book $book)
     {
         $data = [
-            'post' => $post
+            'book' => $book
         ];
-        return view('posts.update',compact('data'));
+        return view('books.update',compact('data'));
     }
 
     /**
@@ -92,7 +90,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Book $book)
     {
         $request->validate([
             'title' => 'required|unique:books,id',
@@ -100,12 +98,12 @@ class PostController extends Controller
         ]);
         $data = $request->all();
         if($request->file('cover')){
-            Storage::disk('posts')->delete($post->image);
+            Storage::disk('books')->delete($book->image);
             $data['image'] = $this->insertImage($request->title,$request->cover);
         }
-        $post->update($data);
+        $book->update($data);
 
-        return redirect()->route('posts.show',$post->id);
+        return redirect()->route('books.show',$book->id);
     }
 
     /**
@@ -114,12 +112,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Book $book)
     {
-        Storage::disk('posts')->delete($post->image);
-        $post->delete();
+        Storage::disk('books')->delete($book->image);
+        $book->delete();
         return redirect()->route('books.index')->with([
-            'message' => 'Post Deleted...',
+            'message' => 'Book Deleted...',
             'alert' => 'danger'
         ]);
 
@@ -127,7 +125,7 @@ class PostController extends Controller
 
     private function insertImage($title,$image){
         $new_image  = $title . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('assets/posts'), $new_image);
+        $image->move(public_path('assets/books'), $new_image);
         return $new_image;
     }
 }

@@ -1,13 +1,19 @@
 <?php
 
-use App\Http\Controllers\PostController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
+Route::resource('books', BookController::class);
 
+Auth::routes();
+Route::group(['middleware'=>'auth'],function(){
+    Route::resource('posts', PostController::class);
+    Route::resource('users', UserController::class);
 
-Route::group(['prefix'=>'posts'],function(){
-    Route::get('/index',[PostController::class,'index'])->name('posts.index');
-    Route::get('/create',[PostController::class,'create'])->name('posts.create');
-    Route::post('/store',[PostController::class,'store'])->name('posts.store');
-    Route::get('/{id}',[PostController::class,'show'])->name('posts.show');
 });
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

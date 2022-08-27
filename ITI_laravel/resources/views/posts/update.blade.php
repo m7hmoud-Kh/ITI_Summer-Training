@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    Create Post
+    Update Post
 @endsection
 
 @section('content')
@@ -16,15 +16,16 @@
         </div>
     @endif
 
-    <form class="mt-4" method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+    <form class="mt-4" method="post" action="{{ route('posts.update',$data['post']->id) }}" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="form-group ">
             <label for="exampleFormControlInput1">Name</label>
-            <input type="text" name="title" class="form-control" id="exampleFormControlInput1" value="{{old('title')}}">
+            <input type="text" name="title" class="form-control" id="exampleFormControlInput1" value="{{old('title',$data['post']->title)}}">
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Description</label>
-            <textarea name="desc" class="form-control" >{{old('desc')}}
+            <textarea name="desc" class="form-control" >{{old('desc',$data['post']->desc)}}
             </textarea>
         </div>
         <div class="form-group">

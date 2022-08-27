@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-    Create Post
+    Create Book
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form class="mt-4" method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+    <form class="mt-4" method="post" action="{{ route('books.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group ">
             <label for="exampleFormControlInput1">Name</label>
@@ -26,6 +26,10 @@
             <label for="exampleFormControlSelect1">Description</label>
             <textarea name="desc" class="form-control" >{{old('desc')}}
             </textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Number of Page</label>
+            <input type="number" name='no_of_page' class="form-control" id="exampleFormControlInput1" value="{{old('no_of_page')}}" >
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect2">Cover</label>

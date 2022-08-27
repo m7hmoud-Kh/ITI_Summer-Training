@@ -1,22 +1,24 @@
 @extends('layout')
 
 @section('title')
-    All Post
+    Show
 @endsection
 
 @section('content')
-
-
-    @if(session()->has('message'))
-        <div class="alert alert-{{session()->get('alert')}}">
-            {{session()->get('message')}}
+    <div class="card mt-4" style="width: 18rem;">
+        <div class="card-body">
+        <h5 class="card-title">{{$data['user']->name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{$data['user']->created_at}}</h6>
+        <p class="card-text">{{$data['user']->email}}</p>
+        <a href="{{route('posts.index')}}" class="card-link">Back</a>
         </div>
-    @endif
+    </div>
 
 
 
-    <a href="{{route('posts.create')}}" class='btn btn-primary mb-4 mt-5'>New Post</a>
-    <table class="table table-striped">
+    <h3>Related Post {{$data['user']->name}}</h3>
+
+    <table class="table table-striped mt-4">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -28,7 +30,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($data['posts'] as $post)
+            @foreach ($data['user']->post as $post)
                 <tr>
                     <td>{{$post->id}}</td>
                     <td>{{$post->title}}</td>
@@ -54,4 +56,5 @@
             @endforeach
         </tbody>
     </table>
+
 @endsection

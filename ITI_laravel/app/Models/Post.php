@@ -2,11 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','desc','price'];
+
+    protected $fillable = [
+        'title',
+        'desc',
+        'no_of_page',
+        'image',
+        'user_id',
+    ];
+
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
