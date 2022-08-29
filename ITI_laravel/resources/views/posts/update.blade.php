@@ -16,6 +16,11 @@
         </div>
     @endif
 
+    <h3>@if (Auth()->user()->cannot('update',$data['post']))
+          You Can Not Updated
+        @endif
+    </h3>
+
     <form class="mt-4" method="post" action="{{ route('posts.update',$data['post']->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')

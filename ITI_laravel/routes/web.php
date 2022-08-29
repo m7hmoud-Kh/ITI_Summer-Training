@@ -6,10 +6,13 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 
-Route::resource('books', BookController::class);
+Route::group(['middleware'=>['auth','active']],function(){
+    Route::resource('books', BookController::class);
+
+});
 
 Auth::routes();
-Route::group(['middleware'=>'auth'],function(){
+Route::group(['middleware'=>['auth']],function(){
     Route::resource('posts', PostController::class);
     Route::resource('users', UserController::class);
 

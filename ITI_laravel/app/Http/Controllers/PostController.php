@@ -94,6 +94,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update',$post);
         $request->validate([
             'title' => 'required|unique:books,id',
             'desc' => 'required',
@@ -116,9 +117,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete',$post);
         Storage::disk('posts')->delete($post->image);
         $post->delete();
-        return redirect()->route('books.index')->with([
+        return redirect()->route('posts.index')->with([
             'message' => 'Post Deleted...',
             'alert' => 'danger'
         ]);
