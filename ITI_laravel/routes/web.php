@@ -12,7 +12,7 @@ Route::group(['middleware'=>['auth','active']],function(){
 });
 
 Auth::routes();
-Route::group(['middleware'=>['auth']],function(){
+Route::group(['middleware'=>['auth','inject-user-id']],function(){
     Route::resource('posts', PostController::class);
     Route::resource('users', UserController::class);
 

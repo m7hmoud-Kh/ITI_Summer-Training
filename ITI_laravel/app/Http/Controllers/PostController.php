@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,17 +40,10 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $request->validate([
-            'title' => 'required|unique:books',
-            'desc' => 'required',
-            'cover' => 'required|mimes:jpg,png,jpeg'
-        ]);
-
         $data = $request->all();
         $data['image'] = $this->insertImage($request->title,$request->cover);
-        $data['user_id'] = Auth::user()->id;
         Post::create($data);
         return redirect()->route('posts.index')->with([
             'message' => 'Post Added Successfully',

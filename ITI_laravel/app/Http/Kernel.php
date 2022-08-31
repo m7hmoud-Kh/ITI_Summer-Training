@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\ActiveUserStatus;
+use App\Http\Middleware\InjectUserIdIfAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -64,6 +65,9 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        /****/
         'active' => ActiveUserStatus::class,
+        'inject-user-id' => InjectUserIdIfAuth::class
     ];
 }
